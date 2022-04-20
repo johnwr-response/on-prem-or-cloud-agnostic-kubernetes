@@ -18,3 +18,23 @@
       - Can be a private network (internal IP addresses)
       - Can be a public routable internet IP addresses (Should be firewalled)
     - Typically, you need minimum 2 nodes (One master and one node to schedule pods on) 
+# Demo
+- Will have two nodes
+  - kubernetes-master-01
+  - kubernetes-node-01
+  - On master:
+    ````
+    scripts/install-kubernetes.sh
+    scripts/create-user.sh
+    ````
+  - On node(s):
+    ````
+    scripts/install-node.sh
+    kubeadm join ....
+    scripts/create-user.sh #only first part
+    ````
+  - On master:
+    ````
+    kubectl get nodes
+    ````
+ 
