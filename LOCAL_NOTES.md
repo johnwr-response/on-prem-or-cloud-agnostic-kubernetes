@@ -147,7 +147,7 @@
     - After that, **block**/**file**/**object** storage can be configured
       - Using the rook API and Kubernetes storage API, which means that using rook storage will become as easy as using AWS EBS or NFS
 
-### Demo: Ceph with Rook
+### Demo: Ceph with Rook (Block storage)
 - Will have four nodes
     - kubernetes-master-01
     - kubernetes-node-01
@@ -197,4 +197,30 @@
   kubectl exec -it rook-tools -n rook -- bash
   rookctl status
   exit
+  ````
+
+### Demo: Ceph with Rook (Object storage)
+- Will have four nodes
+    - kubernetes-master-01
+    - kubernetes-node-01
+    - kubernetes-node-02
+    - kubernetes-node-03
+- On master:
+  ````
+  kubectl get nodes
+  kubectl uncordon kubernetes-node-03
+  kubectl get nodes
+  kubectl create -f rook/rook-storageclass-objectstore.yaml
+  kubectl get pods -n rook
+  kubectl get svc -n rook
+  kubectl exec -it rook-tools -n rook -- bash
+  radosgw-admin user create --uid rook-user --display-name "A rook rgw user" --rgw-realm=my-store --rgw-zonegroup=my-store
+  export AWS_HOST=rook-ceph-rgw-my-store.rook
+  export AWS_ENDPOINT=10.109.209.18 # (The ClusterIP of the service
+  export AWS_ACCESS_KEY_ID=<ACCESS_KEY_FROM_USER_CREATE_COMMAND_ABOVE>
+  export AWS_SECRET_ACCESS_KEY==<SECRET_KEY_FROM_USER_CREATE_COMMAND_ABOVE>
+  s3cmd mb --no-ssl --host=${AWS_HOST} --host-bucket= s3://demobucket
+  echo 'hello world' > test
+  s3cmd put test --no-ssl --host=${AWS_HOST} --host-bucket= s3://demobucket
+  s3cmd ls --no-ssl --host=${AWS_HOST} --host-bucket= s3://demobucket
   ````
