@@ -87,3 +87,14 @@
     - **Operator Lifecycle Manager** oversees installation, updates, and management of the lifecycle of all the operators
     - **Operator Metering** usage reporting
 - Operators will be used extensively here
+
+# Rook
+- Introduction
+  - **Open source orchestrator** for **distributed storage systems** running in Kubernetes (https://github.com/rook/rook/tree/master/Documentation/) 
+    - Allows you to **use storage systems on Kubernetes clusters**
+    - If on a public cloud, it's very easy to **attach a storage volume to a pod** to persist data
+  - **Rook** wants to make it easy to use a **storage system** even on on-prem clusters
+  - Rook **automates** the **configuration**, **deployment**, **maintenance** of distributed storage software
+  - **No need to worry** about the **difficulty of setting up storage systems**
+    - Rook will **orchestrate** all this management for you
+  - Currently, Rook uses **Ceph** as underlying storage, but **Minio** and **CockroachDB** are also available. **More storage engines** will be added.
