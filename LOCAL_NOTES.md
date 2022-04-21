@@ -146,4 +146,55 @@
       - Use the rook operator rather than the Kubernetes API (apiVersion: `rook.io/v1`)
     - After that, **block**/**file**/**object** storage can be configured
       - Using the rook API and Kubernetes storage API, which means that using rook storage will become as easy as using AWS EBS or NFS
-      - 
+
+### Demo: Ceph with Rook
+- Will have four nodes
+    - kubernetes-master-01
+    - kubernetes-node-01
+    - kubernetes-node-02
+    - kubernetes-node-03
+- On master:
+  ````
+  sudo kubectl token create --print-join-command
+  kubectl get nodes
+  kubectl create -f rook/rook-operator.yaml
+  kubectl get pods -n rook-system
+  nano rook/rook-cluster.yaml
+    # change dataDirHostPath to your storage target
+  kubectl create -f rook/rook-cluster.yaml
+  kubectl get pods -n rook
+  kubectl create -f rook/rook-storageclass.yaml
+  kubectl get pods -n rook
+  kubectl create -f rook/rook-tools.yaml
+  kubectl get pods -n rook
+  kubectl exec -it rook-tools -n rook -- bash
+  rookctl status
+  exit
+  kubectl create -f rook/mysql-demo.yaml
+  kubectl get pods
+  kubectl get pv
+  kubectl exec -it <mysql-pod> -- bash
+  ll /var/lib/mysql
+  mysql -u root -pchangeme
+  create database demo; use demo; create table helloworld(id int, hello  varchar(100)); insert into helloworld values (1, 'world'); select * from helloworld;
+  \q
+  exit
+  kubectl get pods
+  kubectl describe pod/<demo-mysql-pod>
+  kubectl cordon kubernetes-node-03
+  kubectl get nodes
+  kubectl delete pod <demo-mysql-pod>
+  kubectl get pods
+  kubectl describe pod/<demo-mysql-pod>
+  kubectl exec -it <mysql-pod> -- bash
+  mysql -u root -pchangeme
+  use demo; select * from helloworld;
+  \q
+  exit
+  kubectl get nodes
+  # Shutdown node 3
+  kubectl get pods -n rook
+  kubectl exec -it rook-tools -n rook -- bash
+  rookctl status
+  exit
+  ````
