@@ -223,4 +223,25 @@
   echo 'hello world' > test
   s3cmd put test --no-ssl --host=${AWS_HOST} --host-bucket= s3://demobucket
   s3cmd ls --no-ssl --host=${AWS_HOST} --host-bucket= s3://demobucket
+  exit
+  ````
+
+### Demo: Ceph with Rook (File storage)
+- Will have four nodes
+    - kubernetes-master-01
+    - kubernetes-node-01
+    - kubernetes-node-02
+    - kubernetes-node-03
+- On master:
+  ````
+  kubectl create -f rook/rook-storageclass-fs.yaml
+  kubectl create -f rook/fs-demo.yaml
+  kubectl get pods -n rook
+  kubectl get pods
+  kubectl exec -it ubuntu -- bash
+  mount | grep data
+  ls -ahl /data
+  echo 'test' > /data/helloworld 
+  ls -ahl /data
+  exit
   ````
