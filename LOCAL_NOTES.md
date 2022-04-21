@@ -245,3 +245,22 @@
   ls -ahl /data
   exit
   ````
+
+# Manage TLS Certificates
+## cert-manager
+### Introduction
+- To use a **secure http connection**, you need a **certificate**
+- Certificates can be **bought** or **issued** by some **public cloud provider** like AWS certificate manager
+- Managing SSL/TLS certificates yourself  often **takes a lot of time** and arre **time consuming** to **install and extend**
+- You **cannot issue your own certificates** for production websites as they are not trusted by the common internet browsers
+- The **cert-manager** can **ease** the **issuing** of certificates and the **management** of them
+  - Can use **Let's encrypt**. A **free**, **automated** and open Certificate Authority 
+    - Can issue certificates for free for your app or website
+    - You will need to prove that you are the owner of a domain
+    - After that they will issue a certificate for you
+    - Then the certificate is **recognized by all** major software vendors and browsers
+  - Cert-manager can **automate the verification process** for *let's encrypt*
+  - With *Let's encrypt* you also have to **renew certificates** every **couple of months**
+  - Cert-manager will **periodically check the validity** of the certificates and automatically run the **renewal process** when necessary
+  - *Let's encrypt* in combination with cert-manager **takes away a lot of hassle** dealing with certificates, allowing you to **secure your endpoints** in an easy and affordable way
+  - You can only issue certificates for domain names that you own (or controls)
