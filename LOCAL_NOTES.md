@@ -305,3 +305,16 @@
   kubectl get pods -n kube-system
   kubectl logs <cert-manager-pod> -n kube-system -c cert-manager
   ````
+
+# Authentication with Dex (OIDC)
+## Introduction to Dex
+- Dex is **Identity Service**
+  - Uses **OpenID Connect** (OIDC)
+- **Kubernetes** can use **Dex** to **authenticate** it's **users** (Using OIDC)
+- Dex users **connectors to authenticate a user** using another Identity Provider
+  - This allows you to use Dex to authenticate users in Kubernetes using LDAP, SAML, GitHub, Microsoft, Google, Apple and others
+- Most companies already have a **user directory** using **OpenLDAP**, **AD** (using LDAP) or similar products
+    - LDAP stands for **Lightweight Directory Access Protocol**
+- It's less common for companies to already have an OpenID Connect implementation to use
+- That's why you have to use software like Dex that **acts like a bridge** between what **enterprises offers for authentication** (LDAP) and what Kubernetes can use today (OIDC)
+- Dex can use LDAP, but there's' also other connectors to use if LDAP is not suitable
