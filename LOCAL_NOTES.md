@@ -1,4 +1,5 @@
 # Installing Kubernetes 
+![CNCF_Trail-map.png](CNCF_Trail-map.png)
 ## Kubeadm
 - **Kubeadm** is a **toolkit** by Kubernetes to create a cluster
 - Works on **any deb/rpm compatible OS** (Ubuntu, Debian, Redhat, CentOS, ...)
@@ -100,6 +101,7 @@
   - Currently, Rook uses **Ceph** as underlying storage, but **Minio** and **CockroachDB** are also available. **More storage engines** will be added.
 
 ### Ceph
+![Rook_Architecture.png](Rook_Architecture.png)
   - **Ceph** provides **object, file and block storage**
   - Is **open source**
   - Is **distributed without a single point of failure**
@@ -318,3 +320,5 @@
 - It's less common for companies to already have an OpenID Connect implementation to use
 - That's why you have to use software like Dex that **acts like a bridge** between what **enterprises offers for authentication** (LDAP) and what Kubernetes can use today (OIDC)
 - Dex can use LDAP, but there's' also other connectors to use if LDAP is not suitable
+## Kubernetes OpenID Connect explained
+![Kubernetes_OIDC.png](Kubernetes_OIDC.png)
