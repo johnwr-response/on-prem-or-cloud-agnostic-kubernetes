@@ -131,3 +131,19 @@
   - Each object is stored within the Object Storage Device (OSD)
   - The OSDs wil run on multiple nodes
   - They will handle the read/write operations to their underlying storage
+
+### Ceph with Rook
+  - Rook supports all 3 types of storage: **block**, **file** and **object** storage
+  - This demo will use **Ceph** for all these types, but **other backends** are also possible 
+    - Rook will do a good job to **abstract this away for you** so most of the configuration is nicely hidden
+    - You will be able to use the **Kubernetes yaml files** to set configuration options 
+  - Deployment steps
+    - First you need to deploy the **rook operator**
+      - Using the provided yaml files
+      - Using the Helm chart
+    - Then you can **create the rook cluster**
+      - Also using yaml definitions
+      - Use the rook operator rather than the Kubernetes API (apiVersion: `rook.io/v1`)
+    - After that, **block**/**file**/**object** storage can be configured
+      - Using the rook API and Kubernetes storage API, which means that using rook storage will become as easy as using AWS EBS or NFS
+      - 
