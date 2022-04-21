@@ -264,3 +264,44 @@
   - Cert-manager will **periodically check the validity** of the certificates and automatically run the **renewal process** when necessary
   - *Let's encrypt* in combination with cert-manager **takes away a lot of hassle** dealing with certificates, allowing you to **secure your endpoints** in an easy and affordable way
   - You can only issue certificates for domain names that you own (or controls)
+### Demo
+- Will have four nodes
+    - kubernetes-master-01
+    - kubernetes-node-01
+    - kubernetes-node-02
+    - kubernetes-node-03
+- On master:
+  ````
+  # First install Helm
+  curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+  # Then configure for RBAC and init
+  kubectl create -f helm/rbac-config.yaml  
+  helm init --service-account tiller
+  # Install ingress controller
+  helm install --name my-ingress stable/nginx-ingress \
+    --set controller.kind=DaemonSet \
+    --set controller.service.type=NodePort \
+    --set controller.hostNetwork=true
+  kubectl get pod
+  # Remember to open FW for http and https
+  kubectl create -f cert-manager/myapp.yaml
+  kubectl create -f cert-manager/myapp-ingress.yaml
+  helm install \
+    --name cert-manager \
+    --namespace kube-system \
+    stable/cert-manager
+  kubectl create -f cert-manager/issuer-staging.yaml
+  kubectl create -f cert-manager/issuer-prod.yaml
+  kubectl create -f cert-manager/certificate-staging.yaml
+  kubectl get certificates
+  kubectl describe certificates myapp
+  kubectl describe ingress
+  kubectl apply -f cert-manager/myapp-ingress.yaml
+  kubectl delete -f cert-manager/certificate-staging.yaml
+  kubectl create -f cert-manager/certificate-prod.yaml
+  kubectl describe certificates myapp
+  kubectl describe ingress
+  kubectl apply -f cert-manager/myapp-ingress.yaml
+  kubectl get pods -n kube-system
+  kubectl logs <cert-manager-pod> -n kube-system -c cert-manager
+  ````
